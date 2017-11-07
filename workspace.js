@@ -1,5 +1,5 @@
 /* global cpdefine chilipeppr cprequire */
-cprequire_test(["inline:com-chilipeppr-workspace-esp32-lua"], function(ws) {
+cprequire_test(["inline:com-chilipeppr-workspace-esp32-micropython"], function(ws) {
 
     console.log("initting workspace");
     ws.init();
@@ -10,18 +10,18 @@ cprequire_test(["inline:com-chilipeppr-workspace-esp32-lua"], function(ws) {
 } /*end_test*/ );
 
 // This is the main definition of your widget. Give it a unique name.
-cpdefine("inline:com-chilipeppr-workspace-esp32-lua", ["chilipeppr_ready"], function() {
+cpdefine("inline:com-chilipeppr-workspace-esp32-micropython", ["chilipeppr_ready"], function() {
     return {
         /**
          * The ID of the widget. You must define this and make it unique.
          */
-        id: "com-chilipeppr-workspace-esp32-lua", // Make the id the same as the cpdefine id
-        name: "Workspace / ESP32 for Lua (NodeMCU)", // The descriptive name of your widget.
-        desc: `A ChiliPeppr Workspace that lets you interact with an ESP32 Lua device (NodeMCU for ESP32). \
+        id: "com-chilipeppr-workspace-esp32-micropython", // Make the id the same as the cpdefine id
+        name: "Workspace / ESP32 for Micropython (NodeMCU)", // The descriptive name of your widget.
+        desc: `A ChiliPeppr Workspace that lets you interact with an ESP32 Micropython device (NodeMCU for ESP32). \
 The device is an ESP32 wifi module with an attached USB serial port bridge \
 so you can easily use it and program it from your computer via the serial port. Thus, the esp32 \
 works brilliantly with ChiliPeppr. Secondly, \
-the esp32 has the Lua language preloaded onto it so you can easily program \
+the esp32 has the Micropython language preloaded onto it so you can easily program \
 the device.This workspace gives you convenience methods for programming the esp32 device. \
 You can buy the esp32 on ebay.com or aliexpress.com.`,
         url: "(auto fill by runme.js)", // The final URL of the working widget as a single HTML file with CSS and Javascript inlined. You can let runme.js auto fill this if you are using Cloud9.
@@ -37,9 +37,9 @@ You can buy the esp32 on ebay.com or aliexpress.com.`,
          */
         widgetSpjs: null,
         /**
-         * Contains reference to the Lua Editor widget.
+         * Contains reference to the Micropython Editor widget.
          */
-        widgetLuaEditor: null,
+        widgetMicropythonEditor: null,
         /**
          * The workspace's init method. It loads the Console widget and then the SPJS widget.
          */
@@ -49,29 +49,29 @@ You can buy the esp32 on ebay.com or aliexpress.com.`,
 
             $('#' + this.id).removeClass("hidden");
 
-            
-            
+
+
             // now we can load the SPJS widget
             that.loadSpjsWidget(function() {
 
                 console.log("spjs widget loaded");
-                
+
                 // Load the console widget
                 that.loadConsoleWidget(function() {
-    
+
                     console.log("console widget loaded, now lets load spjs");
-                
+
                     // if we get here, we can init the Console Widget
                     // (we are now initting the widget immediately)
                     that.widgetConsole.init(true, /chilipeppr heartbeat/);
                     //that.widgetConsole.resize();
-    
+
                     that.setupResize();
                 });
-                
+
             });
 
-            this.loadLuaEditor();
+            this.loadMicropythonEditor();
             this.loadXbmUploader();
 
             //this.loadFlashMsg();
@@ -81,9 +81,9 @@ You can buy the esp32 on ebay.com or aliexpress.com.`,
             this.loadFileListWidget();
             // this.loadSampleCodeWidget();
             this.loadDocsWidget();
-            
+
             this.addBillboardToWorkspaceMenu();
-            
+
             this.loadCayennWidget();
 
         },
@@ -136,16 +136,16 @@ You can buy the esp32 on ebay.com or aliexpress.com.`,
         },
         onClickCreateTestFile: function(evt) {
             console.log("got onClickCreateTestFile. evt:", evt);
-            this.send(`-- open 'test.lua' in 'a+' mode to append
-file.open("test.lua", "a+")
+            this.send(`-- open 'test.micropython' in 'a+' mode to append
+file.open("test.micropython", "a+")
 -- write 'foo bar' to the end of the file
 file.writeline('print("hello world")')
 file.close()`);
         },
         onClickReadTestFile: function(evt) {
             console.log("got onClickReadTestFile. evt:", evt);
-            this.send(`-- read 'test.lua' in 'r' mode for read-only
-file.open("test.lua", "r")
+            this.send(`-- read 'test.micropython' in 'r' mode for read-only
+file.open("test.micropython", "r")
 -- read to the end of the file
 txt = file.read()
 print(txt)
@@ -155,8 +155,8 @@ txt = nil`);
 
         onClickReadInitFile: function(evt) {
             console.log("got onClickReadInitFile. evt:", evt);
-            this.send(`-- read 'init.lua' in 'r' mode for read-only
-file.open("init.lua", "r")
+            this.send(`-- read 'init.micropython' in 'r' mode for read-only
+file.open("init.micropython", "r")
 -- read to the end of the file
 txt = file.read()
 print(txt)
@@ -165,12 +165,12 @@ txt = nil`);
         },
         onClickCreateInitFile: function(evt) {
             console.log("got onClickCreateInitFile. evt:", evt);
-            this.send(`-- open 'init.lua' in 'w' mode to overwrite anything
-file.open("init.lua", "w")
--- write a print statement to the auto-start init.lua file
-file.writeline('print("Just ran auto-start init.lua. Put your own code here.")')
+            this.send(`-- open 'init.micropython' in 'w' mode to overwrite anything
+file.open("init.micropython", "w")
+-- write a print statement to the auto-start init.micropython file
+file.writeline('print("Just ran auto-start init.micropython. Put your own code here.")')
 file.close()
--- do node.restart() to see init.lua run`);
+-- do node.restart() to see init.micropython run`);
         },
 
         onClickFormat: function(evt) {
@@ -195,9 +195,9 @@ function m.toggleLED ()
   else
     m.value = 0
   end
-  
+
   gpio.write(m.pin, m.value)
-  
+
   -- m.ctr = m.ctr + 1
   -- if m.ctr > 10 then
   --   m.mytimer:unregister()
@@ -292,7 +292,7 @@ end)`);
          */
         onResize: function() {
             if (this.widgetConsole) this.widgetConsole.resize();
-            if (this.widgetLuaEditor) this.widgetLuaEditor.resize();
+            if (this.widgetMicropythonEditor) this.widgetMicropythonEditor.resize();
         },
         /**
          * Load the Console widget via chilipeppr.load()
@@ -314,7 +314,7 @@ end)`);
 
                             that.widgetConsole = mywidget;
                             // that.widgetConsole.init(true, /^{/);
-                            
+
                             // load spjs widget so we can test
                             //http://fiddle.jshell.net/chilipeppr/vetj5fvx/show/light/
                             callback();
@@ -400,7 +400,7 @@ end)`);
             );
         },
         loadXbmUploader: function() {
-        
+
             chilipeppr.load(
               "#com-chilipeppr-widget-xbm-instance",
               "http://raw.githubusercontent.com/chilipeppr/widget-xbm/master/auto-generated-widget.html",
@@ -416,23 +416,23 @@ end)`);
                   }
                 );
               }
-            );    
+            );
         },
         /**
-         * Load the widget for the Lua Editor which is based on the Macro widget from
+         * Load the widget for the Micropython Editor which is based on the Macro widget from
          * the TinyG workspace.
          */
-        loadLuaEditor: function() {
-            // #com-chilipeppr-widget-luaeditor-instance
+        loadMicropythonEditor: function() {
+            // #com-chilipeppr-widget-micropythoneditor-instance
             var that = this;
             chilipeppr.load(
-                "#com-chilipeppr-widget-luaeditor-instance",
-                "http://raw.githubusercontent.com/chilipeppr/widget-luaeditor/master/auto-generated-widget.html",
+                "#com-chilipeppr-widget-micropythoneditor-instance",
+                "http://raw.githubusercontent.com/chilipeppr/widget-micropythoneditor/master/auto-generated-widget.html",
                 function() {
-                    require(['inline:com-chilipeppr-widget-luaeditor'], function(luaeditor) {
-                        that.widgetLuaEditor = luaeditor;
-                        luaeditor.init();
-                        luaeditor.resize();
+                    require(['inline:com-chilipeppr-widget-micropythoneditor'], function(micropythoneditor) {
+                        that.widgetMicropythonEditor = micropythoneditor;
+                        micropythoneditor.init();
+                        micropythoneditor.resize();
                     });
                 }
             );
@@ -499,7 +499,7 @@ end)`);
                 );
               }
             );
-            
+
             // chilipeppr.load(
             //     "#com-chilipeppr-widget-nodemcu-docs-instance",
             //     "http://raw.githubusercontent.com/chilipeppr/widget-nodemcu-docs/master/auto-generated-widget.html",
@@ -518,7 +518,7 @@ end)`);
             // );
         },
         loadCayennWidget: function() {
-            
+
             // Cayenn Widget
             chilipeppr.load(
               "#com-chilipeppr-widget-cayenn-instance",
@@ -532,11 +532,11 @@ end)`);
                     // Callback that is passed reference to the newly loaded widget
                     console.log("Widget / Cayenn just got loaded.", myObjWidgetCayenn);
                     myObjWidgetCayenn.init();
-                    
+
                     // this widget has a lot of modals that pop up whenever, so we need to make sure the parent div is
                     // not hidden. instead we'll hide the exact widget because the modals are outside the div of the widget
                     $('#com-chilipeppr-ws-cayenn').removeClass("hidden");
-                    
+
                     /*
                     var btn = $('#com-chilipeppr-ws-menu .cayenn-button');
                     var div = $('#com-chilipeppr-widget-cayenn');
@@ -556,7 +556,7 @@ end)`);
                         }, 200);
                     });
                     */
-                    
+
                   }
                 );
               }
