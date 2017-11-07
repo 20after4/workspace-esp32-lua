@@ -521,13 +521,13 @@ end)`);
             // #com-chilipeppr-widget-micropythoneditor-instance
             var that = this;
             chilipeppr.load(
-                "#com-chilipeppr-widget-micropythoneditor-instance",
-                "http://raw.githubusercontent.com/chilipeppr/widget-micropythoneditor/master/auto-generated-widget.html",
+                "#com-chilipeppr-widget-pythoneditor-instance",
+                "https://raw.githubusercontent.com/20after4/widget-pythoneditor/master/auto-generated-widget.html",
                 function() {
-                    require(['inline:com-chilipeppr-widget-micropythoneditor'], function(micropythoneditor) {
-                        that.widgetMicropythonEditor = micropythoneditor;
-                        micropythoneditor.init();
-                        micropythoneditor.resize();
+                    require(['inline:com-chilipeppr-widget-pythoneditor'], function(pythoneditor) {
+                        that.widgetPythonEditor = pythoneditor;
+                        pythoneditor.init();
+                        pythoneditor.resize();
                     });
                 }
             );
