@@ -344,9 +344,9 @@ end)`);
                         //spjs.init(null, "timed", 9600);
                         spjs.init({
                             isSingleSelectMode: true,
-                            defaultBuffer: "nodemcu",
+                            defaultBuffer: "micropython",
                             defaultBaud: 115200, //9600,
-                            bufferEncouragementMsg: 'For your NodeMCU device please choose the "nodemcu" buffer in the pulldown and a 115,200 baud rate before connecting.'
+                            bufferEncouragementMsg: 'For your micropython device please choose the "micropython" buffer in the pulldown and a 115,200 baud rate before connecting.'
                         });
                         //spjs.showBody();
                         //spjs.consoleToggle();
