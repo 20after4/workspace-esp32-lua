@@ -335,7 +335,7 @@ end)`);
             chilipeppr.load(
                 "#spjsWidget",
                 //"http://fiddle.jshell.net/chilipeppr/vetj5fvx/show/light/",
-                "http://raw.githubusercontent.com/chilipeppr/widget-spjs/master/auto-generated-widget.html",
+                "https://raw.githubusercontent.com/20after4/widget-spjs/master/auto-generated-widget.html",
                 function() {
                     console.log("mycallback got called after loading spjs module");
                     cprequire(["inline:com-chilipeppr-widget-serialport"], function(spjs) {
